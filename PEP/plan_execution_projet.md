@@ -25,38 +25,43 @@ Louis Guibert, Valentin Boudevin, Théo Gaboreau, Thomas Debeire, Nolann Borjon-
 
 ### 1.2. Description du produit
 
-Le but de ce projet est de développer un voilier modèle réduit (classe 1m) pouvant fonctionner de manière autonome au radioguidée, sur un plan d'eau de taille définie (inférieure à 200 mètres).
+Le but de ce projet est de développer un voilier à modèle réduit (classe 1m) pouvant fonctionner de manière autonome, sur un plan d’eau lentique de taille définie (inférieur à 200m) et sans obstacle. Le bateau devra réaliser un parcours avec contournement d’une bouée virtuelle en totale autonomie. Il devra également pouvoir être piloté en mode manuel à tout moment lors du choix du pilote ou lors en cas d'avarie matérielle/logicielle. Le produit sera capable de fonctionner également en mode dégradé en cas de dysfonctionnement de l'un de ses capteurs.
 
 ### 1.3. Fonctionnalités
 #### 1.3.1 Navigation autonome
-Le bateau doit être capable de réaliser un trajet simple (aller-retour jusqu'à une bouée) de manière autonome.
+ Le bateau doit être capable de réaliser un trajet simple (aller-retour jusqu’à une bouée) de manière autonome. Il sera également capable de fonctionner en mode dégradé.
 ##### Changement de mode 
-
+ Le bateau doit pouvoir basculer en pilotage manuel à tout moment, le signal envoyé doit être critique.
 #####  Sens et direction du vent
+ Une girouette placée en haut du mât couplée à un encodeur donnera l’information du sens et de la direction du vent. L’encodeur communiquera en I2C avec le microcontrôleur.
 ##### Position GPS
+ Le bateau sera équipé d’un module GNSS qui donnera les coordonnées du bateau avec une précision de 1 cm avec l’utilisation du RTK. Le module communiquera en I2C avec le microcontrôleur.
 ##### Orientation du bateau
+ Le gyroscope équipé dans le bateau permet de donner une orientation du bateau sur les 3 axes, et le magnétomètre donne une orientation supplémentaire par rapport au pôle magnétique. Ces fonctions sont intégrées dans un seul composant, communiquant en I2C avec le microcontrôleur.
 ##### Contrôle des servomoteurs
+ Deux servomoteurs sont équipés dans le bateau, un qui permet de contrôler le safran du voilier, et l’autre pour diriger la voile. Les servomoteurs seront contrôlés avec deux signaux en PWM.
 ##### Retour d'information station au sol 
-OK / KO + charge de la batterie
-##### Affichage des informations dans une interface (Web ?)
+ L’ensemble des informations seront envoyées par ondes radios (2,4 GHz) à l'aide de modules émetteurs / récepteurs XBee. Des logs réguliers seront générés. Les informations récupérées indiqueront la charge de la batterie et l'état (OK/KO) de chaque modules et capteurs.
+##### Affichage des informations dans une interface (facultatif)
+ L’ensemble des informations réceptionnées pourrait être affiché sur une interface web.
 #### 1.3.2 Contrôle manuel
+##### Contrôle des servomoteurs
+ Deux servomoteurs sont équipés dans le bateau, un qui permet de contrôler le safran du voilier, et l’autre pour diriger la voile. Les servomoteurs seront contrôlés avec deux signaux en PWM.
 ##### Retour d'information station au sol 
-Retour de commande + Debug / Test + charge de la batterie
-- Contrôle manuel distinct des voiles et du safran
-- Navigation autonome sur un trajet simple (
-##### Affichage des informations dans une interface (Web ?)
-
+ L’ensemble des informations seront envoyées par ondes radios (2,4 GHz) à l'aide de modules émetteurs / récepteurs XBee. Des logs réguliers seront générés. Les informations récupérées indiqueront la charge de la batterie et l'état (OK/KO) de chaque modules et capteurs.
+##### Affichage des informations dans une interface (facultatif)
+ L’ensemble des informations réceptionnées pourrait être affiché sur une interface web.
 
 ### 1.4. Exigences opérationnelles
-
+ Le bateau devra respecter les exigences opérationnelles suivantes :
 - Poids maximal additionnel : 500 gr
-- Passage en mode manuel à n'importe quel moment et lors d'une défaillance
+- Passage en mode manuel à n’importe quel moment et lors d’une défaillance (mode critique)
 - Lecture du vent toutes les 2 secondes
 - Lecture orientation bateau toutes les 2 secondes
 - Envoi logs toutes les 2 secondes
 - Lecture position GPS temps réels
-
-*<Définir les exigences opérationnelles de votre produit en quantifiant les objectifs à atteindre. Les clients utiliseront ces objectifs pour valider la conformité de votre produit (et votre projet). Organiser cette partie en identifiant de manière unique chaque exigence unitaire.>*
+- Correction de la dérive toutes les 2 secondes
+- Fonctionnement en mode dégradé en cas de dysfonctionnement de capteurs
 
 ### 1.5. Plan de validation
  Essai à terre de chaque modules
